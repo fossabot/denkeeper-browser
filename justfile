@@ -17,6 +17,13 @@ test: build
 lint:
     docker run --rm -i hadolint/hadolint < Dockerfile
 
+# Run all checks (lint + test)
+check: lint test
+
+# Audit npm dependencies for known vulnerabilities
+audit:
+    npm audit --audit-level=high
+
 # Run the image interactively for debugging
 run:
     docker run --rm -it --tmpfs /tmp --tmpfs /home/mcp denkeeper-browser --headless --browser chromium --no-sandbox

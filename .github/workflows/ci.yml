@@ -80,7 +80,7 @@ jobs:
         run: docker load -i /tmp/image.tar
 
       - name: Grype scan
-        uses: anchore/scan-action@v6
+        uses: anchore/scan-action@v7
         id: scan
         with:
           image: denkeeper-browser:test

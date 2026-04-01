@@ -8,6 +8,8 @@ RUN npm ci --omit=dev
 
 # Install Chromium and its OS-level dependencies.
 # Only Chromium is needed — Firefox and WebKit are not installed.
+# Separate RUN for layer caching (different invalidation than npm ci).
+# hadolint ignore=DL3059
 RUN npx playwright install --with-deps chromium
 
 

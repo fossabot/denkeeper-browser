@@ -1,6 +1,7 @@
 # denkeeper-browser
 
 [![CI](https://github.com/Temikus/denkeeper-browser/actions/workflows/ci.yml/badge.svg)](https://github.com/Temikus/denkeeper-browser/actions/workflows/ci.yml)
+[![Security](https://github.com/Temikus/denkeeper-browser/actions/workflows/security.yml/badge.svg)](https://github.com/Temikus/denkeeper-browser/actions/workflows/security.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 Hardened Docker image running [`@playwright/mcp`](https://github.com/microsoft/playwright-mcp) for [denkeeper](https://github.com/Temikus/denkeeper) browser automation. Communicates via the MCP stdio transport.
@@ -95,7 +96,7 @@ Images are built for `linux/amd64` and `linux/arm64`. ARM64 support enables depl
 
 ## Supply chain verification
 
-Images are signed with [cosign](https://github.com/sigstore/cosign) (keyless OIDC) and include SLSA build provenance attestations.
+Images are signed with [cosign](https://github.com/sigstore/cosign) (keyless OIDC), include SLSA build provenance attestations, and ship with an SPDX SBOM attached to each image.
 
 ```bash
 # Verify signature
@@ -118,6 +119,8 @@ Requires [just](https://github.com/casey/just) and Docker.
 just build       # Build for current platform
 just test        # Build + run MCP smoke test
 just lint        # Lint Dockerfile with hadolint
+just check       # Run all checks (lint + test)
+just audit       # Audit npm dependencies for vulnerabilities
 just build-multi # Build for amd64 + arm64 (requires buildx)
 ```
 
