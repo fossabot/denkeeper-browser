@@ -40,7 +40,7 @@ jobs:
       - name: Save image for downstream jobs
         run: docker save denkeeper-browser:test -o /tmp/image.tar
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: docker-image
           path: /tmp/image.tar
