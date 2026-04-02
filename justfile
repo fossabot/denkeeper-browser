@@ -17,8 +17,12 @@ test: build
 lint:
     docker run --rm -i hadolint/hadolint < Dockerfile
 
-# Run all checks (lint + test)
-check: lint test
+# Run container structure tests against the locally built image
+test-structure: build
+    ./test/structure.sh denkeeper-browser
+
+# Run all checks (lint + test + structure)
+check: lint test test-structure
 
 # Audit npm dependencies for known vulnerabilities
 audit:
