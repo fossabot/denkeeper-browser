@@ -23,6 +23,10 @@ RUN groupadd -r -g 10001 mcp && useradd -r -u 10001 -g mcp -d /home/mcp -s /sbin
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder --chown=mcp:mcp /root/.cache/ms-playwright /home/mcp/.cache/ms-playwright
 
+# Copy wrapper server and extraction library.
+COPY server.js /app/server.js
+COPY lib/ /app/lib/
+
 # Install Chromium's OS-level runtime dependencies. Playwright's install-deps
 # resolves the correct package names for the current distro automatically.
 # hadolint ignore=DL3008,DL3013
@@ -37,6 +41,8 @@ LABEL org.opencontainers.image.source="https://github.com/Temikus/denkeeper-brow
 LABEL org.opencontainers.image.description="Hardened Playwright MCP server for denkeeper browser automation"
 LABEL org.opencontainers.image.licenses="Apache-2.0"
 
-# Bare entrypoint — all flags (--headless, --browser, --no-sandbox) are
-# passed by the caller (denkeeper's sandbox runtime or docker run).
-ENTRYPOINT ["node", "/app/node_modules/@playwright/mcp/cli.js"]
+# Wrapper server that proxies all Playwright MCP tools and adds custom
+# extraction tools (browser_extract_text, browser_extract_html).
+# CLI flags (--headless, --browser, --no-sandbox) are passed by the caller
+# and parsed by server.js into createConnection() config.
+ENTRYPOINT ["node", "/app/server.js"]

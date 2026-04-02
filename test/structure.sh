@@ -56,10 +56,10 @@ echo ""
 uid="$(drun id -u)"
 assert_eq "runs as UID 10001" "$uid" "10001"
 
-# 2. Entrypoint is node + playwright MCP
+# 2. Entrypoint is node + wrapper server
 entrypoint="$(docker inspect --format='{{json .Config.Entrypoint}}' "$IMAGE")"
-assert_eq "entrypoint is node + playwright MCP" "$entrypoint" \
-    '["node","/app/node_modules/@playwright/mcp/cli.js"]'
+assert_eq "entrypoint is node + wrapper server" "$entrypoint" \
+    '["node","/app/server.js"]'
 
 # 3. Only Chromium — no Firefox or WebKit
 browsers="$(drun ls /home/mcp/.cache/ms-playwright/)"
@@ -76,11 +76,29 @@ assert_contains "mcp user has gid=10001" "$id_output" "gid=10001"
 node_version="$(drun node --version)"
 assert_contains "node is available" "$node_version" "v"
 
-# 6. cli.js exists at expected path
-if drun test -f /app/node_modules/@playwright/mcp/cli.js; then
-    pass "cli.js exists at expected path"
+# 6. Server files exist at expected paths
+if drun test -f /app/server.js; then
+    pass "server.js exists at expected path"
 else
-    fail "cli.js missing at /app/node_modules/@playwright/mcp/cli.js"
+    fail "server.js missing at /app/server.js"
+fi
+
+if drun test -f /app/lib/extract.js; then
+    pass "lib/extract.js exists at expected path"
+else
+    fail "lib/extract.js missing at /app/lib/extract.js"
+fi
+
+if drun test -f /app/node_modules/@mozilla/readability/Readability.js; then
+    pass "Readability.js exists in node_modules"
+else
+    fail "Readability.js missing from node_modules"
+fi
+
+if drun test -f /app/node_modules/@playwright/mcp/cli.js; then
+    pass "playwright MCP cli.js exists"
+else
+    fail "playwright MCP cli.js missing"
 fi
 
 # 7. OCI labels are set

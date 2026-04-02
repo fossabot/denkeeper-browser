@@ -9,12 +9,17 @@ build:
 build-multi:
     docker buildx build --platform linux/amd64,linux/arm64 -t denkeeper-browser .
 
+# Run unit tests (no Docker needed)
+test-unit:
+    node test/extract.test.js
+
 # Run tests: `just test` runs all, `just test smoke` or `just test structure` runs one
 test suite="all": build
     #!/usr/bin/env bash
     set -euo pipefail
     case "{{suite}}" in
         all)
+            node test/extract.test.js
             ./test/smoke.sh denkeeper-browser
             ./test/structure.sh denkeeper-browser
             ;;
@@ -24,9 +29,12 @@ test suite="all": build
         structure)
             ./test/structure.sh denkeeper-browser
             ;;
+        unit)
+            node test/extract.test.js
+            ;;
         *)
             echo "Unknown test suite: {{suite}}"
-            echo "Usage: just test [smoke|structure|all]"
+            echo "Usage: just test [smoke|structure|unit|all]"
             exit 1
             ;;
     esac

@@ -92,6 +92,34 @@ run_mcp_session() {
         fail "tools/list: unexpected response: $list_resp"
     fi
 
+    # ── Test 3: custom extraction tools are present ──
+
+    local has_extract_text
+    has_extract_text="$(echo "$list_resp" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+names = [t['name'] for t in d['result']['tools']]
+print('yes' if 'browser_extract_text' in names else 'no')
+")"
+    if [ "$has_extract_text" = "yes" ]; then
+        pass "tools/list: browser_extract_text present"
+    else
+        fail "tools/list: browser_extract_text missing"
+    fi
+
+    local has_extract_html
+    has_extract_html="$(echo "$list_resp" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+names = [t['name'] for t in d['result']['tools']]
+print('yes' if 'browser_extract_html' in names else 'no')
+")"
+    if [ "$has_extract_html" = "yes" ]; then
+        pass "tools/list: browser_extract_html present"
+    else
+        fail "tools/list: browser_extract_html missing"
+    fi
+
     # ── Cleanup ──
 
     exec 3>&-

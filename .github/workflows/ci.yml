@@ -20,6 +20,22 @@ jobs:
         with:
           dockerfile: Dockerfile
 
+  test-unit:
+    name: Test — unit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run extraction unit tests
+        run: node test/extract.test.js
+
   build:
     name: Build image
     runs-on: ubuntu-latest
