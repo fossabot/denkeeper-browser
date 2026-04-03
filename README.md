@@ -3,6 +3,7 @@
 [![CI](https://github.com/Temikus/denkeeper-browser/actions/workflows/ci.yml/badge.svg)](https://github.com/Temikus/denkeeper-browser/actions/workflows/ci.yml)
 [![Security](https://github.com/Temikus/denkeeper-browser/actions/workflows/security.yml/badge.svg)](https://github.com/Temikus/denkeeper-browser/actions/workflows/security.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FTemikus%2Fdenkeeper-browser.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FTemikus%2Fdenkeeper-browser?ref=badge_shield)
 
 Hardened Docker image running [`@playwright/mcp`](https://github.com/microsoft/playwright-mcp) for [denkeeper](https://github.com/Temikus/denkeeper) browser automation. Communicates via the MCP stdio transport.
 
@@ -133,3 +134,6 @@ The `@playwright/mcp` version is pinned in `package.json`. Image releases track 
 ## License
 
 [Apache License 2.0](LICENSE)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FTemikus%2Fdenkeeper-browser.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FTemikus%2Fdenkeeper-browser?ref=badge_large)
